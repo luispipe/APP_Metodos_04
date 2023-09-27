@@ -3,9 +3,23 @@ package com.example.appmetodos_04;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    /*Al definir variables en el inicio de una clase, hace que esta sea
+      global es decir cualquier metodo las puede utilizar
+    *Al definir variable dentro de un metodo, hace que estas sean locales
+     es decir solo ese metodo las puede usar
+    */
+
+    EditText name,weight,height;
+    Button calculateIMC;
+    TextView resultIMC;
 
     /*
     Java funciona por medio de clases, las clases son paquetes de metodos
@@ -19,6 +33,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        name=findViewById(R.id.etName);
+        weight= findViewById(R.id.etWeight);
+        height=findViewById(R.id.etHeight);
+        calculateIMC= findViewById(R.id.btnCalculateIMC);
+        resultIMC=findViewById(R.id.tvResult);
+
+        calculateIMC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nameText= name.getText().toString();
+                String weightText= weight.getText().toString();
+                String heightText= height.getText().toString();
+                //String tiene una operación para saber si un texto es vacio
+                if(nameText.isEmpty() || weightText.isEmpty() || heightText.isEmpty()){
+                    Toast.makeText(getBaseContext(),"Todos los campos deben estar diligenciados",
+                            Toast.LENGTH_LONG).show();
+                }else{
+                    double weightData= Double.parseDouble(weightText);
+                    double heightData= Double.parseDouble(heightText);
+                    double imc=calcularIMC(weightData,heightData);
+                    message(imc,nameText);
+                }
+
+            }
+        });
 
         /*Variables y constantes
         -Variables nos permiten almacenar un valor de un tipo de dato,
@@ -94,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
    // Un metodo que devuelva un saludo
    protected String saludar(){
+
        return "Bienvenido";
    }
 
@@ -102,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
    private void message(double imc,String nombre){
        //concatenar texto
        System.out.println("El usuario "+nombre+" tiene un imc de "+imc);
+       resultIMC.setText("El usuario "+nombre+" tiene un imc de "+imc);
    }
 
 
