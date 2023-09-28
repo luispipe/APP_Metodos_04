@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Peso (kg)"
-        android:inputType="text" />
+        android:inputType="number|numberDecimal" />
 
     <TextView
         android:id="@+id/tvHeight"
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Altura (cm)"
-        android:inputType="text" />
+        android:inputType="number|numberDecimal" />
 
     <Button
         android:id="@+id/btnCalculateIMC"
@@ -62,5 +62,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tvClassificationIMC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textSize="24sp" />
 </LinearLayout>

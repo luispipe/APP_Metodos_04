@@ -2,7 +2,9 @@ package com.example.appmetodos_04;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText name,weight,height;
     Button calculateIMC;
-    TextView resultIMC;
+    TextView resultIMC,classificationIMC;
 
     /*
     Java funciona por medio de clases, las clases son paquetes de metodos
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         height=findViewById(R.id.etHeight);
         calculateIMC= findViewById(R.id.btnCalculateIMC);
         resultIMC=findViewById(R.id.tvResult);
+        classificationIMC=findViewById(R.id.tvClassificationIMC);
 
         calculateIMC.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,9 +55,10 @@ public class MainActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }else{
                     double weightData= Double.parseDouble(weightText);
-                    double heightData= Double.parseDouble(heightText);
+                    double heightData= (Double.parseDouble(heightText));
                     double imc=calcularIMC(weightData,heightData);
                     message(imc,nameText);
+                    classification_IMC(imc);
                 }
 
             }
@@ -128,13 +132,12 @@ public class MainActivity extends AppCompatActivity {
     //imc= peso/altura^2
 
    public double calcularIMC(double peso,double estatura){
-        double imc= peso/(estatura*estatura);
+        double imc= peso/((estatura/100)*(estatura/100));
         return imc;
    }
 
    // Un metodo que devuelva un saludo
    protected String saludar(){
-
        return "Bienvenido";
    }
 
@@ -142,8 +145,30 @@ public class MainActivity extends AppCompatActivity {
 
    private void message(double imc,String nombre){
        //concatenar texto
-       System.out.println("El usuario "+nombre+" tiene un imc de "+imc);
-       resultIMC.setText("El usuario "+nombre+" tiene un imc de "+imc);
+      // System.out.println("El usuario "+nombre+" tiene un imc de "+imc);
+       //Limitar a 2 decimales
+       double imcRound= Math.round(imc*100d)/100d;
+
+       resultIMC.setText("El usuario "+nombre+" tiene un imc de "+imcRound);
+   }
+
+   protected void classification_IMC(double imc){
+       classificationIMC.setGravity(Gravity.CENTER);
+       if(imc<18.5){
+           classificationIMC.setText("Bajo de peso");
+           classificationIMC.setTextColor(Color.YELLOW);
+       }else if(imc>=18.5 && imc<25){
+           classificationIMC.setText("Peso Normal");
+           classificationIMC.setTextColor(Color.GREEN);
+       } else if (imc>=25 && imc<30){
+           classificationIMC.setText("Sobrepeso");
+           classificationIMC.setTextColor(Color.MAGENTA);
+       } else if (imc>=30) {
+           classificationIMC.setText("Obesidad");
+           classificationIMC.setTextColor(Color.RED);
+       }else{
+           classificationIMC.setText("IMC Incorrecto");
+       }
    }
 
 
